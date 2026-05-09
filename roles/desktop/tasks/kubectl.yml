@@ -1,0 +1,34 @@
+---
+- name: Delete GPG Key (if exists)
+  file:
+    path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    state: absent
+
+- name: GPG Key Download
+  shell: |
+    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.36/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  # --- That's curious --- #
+  # --- https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_environment.html --- #
+  environment:
+    TERM: xterm
+  args:
+    executable: /bin/bash
+
+- name: Configure Kubernetes repository
+  copy: 
+    content: |
+      deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.36/deb/ /
+    dest: /etc/apt/sources.list.d/kubernetes.list
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: APT Update cache
+  apt:
+    update_cache: yes
+
+- name: Install Kubectl
+  apt:
+    name:
+      - kubectl

@@ -4,3 +4,9 @@
 
 - name: Include helm tasks
   include_tasks: helm.yml
+
+- name: Include kubectl tasks
+  include_tasks: kubectl.yml
+
+- name: Include k3d tasks
+  include_tasks: k3d.yml
