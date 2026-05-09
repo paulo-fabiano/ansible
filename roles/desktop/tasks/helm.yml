@@ -1,0 +1,31 @@
+---
+- name: GPG Key Download
+  shell: |
+    curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg
+  # --- That's curious --- #
+  environment:
+    TERM: xterm
+
+- name: Remove repository (if exists)
+  file: 
+    path: /etc/apt/sources.list.d/helm-stable-debian.list
+    state: absent
+
+- name: Package configuration
+  copy:
+    content: |
+      deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main
+    dest: /etc/apt/sources.list.d/helm-stable-debian.list
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Atualizar cache do APT
+  apt:
+    update_cache: yes
+
+- name: Install Helm from APT 
+  apt:
+    name:
+      - helm 
+    state: present

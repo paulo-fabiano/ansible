@@ -1,0 +1,17 @@
+---
+- name: Atualizar cache do APT
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Instalar pacotes essenciais
+  apt:
+    name:
+      - vim
+      - git
+      - curl
+      - zip
+      - wget
+      - gpg
+      - apt-transport-https
+    state: present

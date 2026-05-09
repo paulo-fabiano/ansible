@@ -1,0 +1,11 @@
+- name: Configure Basic Services on Ubuntu Desktop
+  hosts: local
+  gather_facts: true 
+  roles:
+    - common
+    - desktop
+
+  # vars_prompt:
+  #   - name: ansible_become_password
+  #     prompt: "Digite a senha sudo"
+  #     private: true

@@ -1,0 +1,2 @@
+[<group-name>]
+<ip> ansible_ssh_user=<user> ansible_become_pass=<password>

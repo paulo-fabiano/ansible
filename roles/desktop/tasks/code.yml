@@ -1,0 +1,47 @@
+---
+- name: Atualizar cache do APT
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Remove file package repository to vscode (delete file if it exists)
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/vscode.sources
+    state: absent
+
+
+- name: Remove microsoft gpg key
+  ansible.builtin.file:
+    path: /usr/share/keyrings/microsoft.gpg
+    state: absent
+
+  # --- Consider in the future use "get_url" module --- #
+  # --- https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/get_url_module.html --- #
+- name: gpg key
+  shell: |
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
+
+- name: Add VS Code repository
+  copy:
+    content: |
+      Types: deb
+      URIs: https://packages.microsoft.com/repos/code
+      Suites: stable
+      Components: main
+      Architectures: amd64,arm64,armhf
+      Signed-By: /usr/share/keyrings/microsoft.gpg
+    dest: /etc/apt/sources.list.d/vscode.sources
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Atualizar cache do APT
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install VS Code from apt
+  apt:
+    name: 
+      - code
+    state: present

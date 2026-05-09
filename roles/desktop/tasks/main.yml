@@ -1,0 +1,6 @@
+---
+- name: Include code tasks
+  include_tasks: code.yml
+
+- name: Include helm tasks
+  include_tasks: helm.yml

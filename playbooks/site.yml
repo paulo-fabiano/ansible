@@ -1,0 +1,7 @@
+- name: Provision base system and services
+  hosts: all
+  become: true
+  roles:
+    - common
+    - webserver
+    - database
