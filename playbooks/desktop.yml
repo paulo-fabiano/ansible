@@ -7,5 +7,5 @@
 
   # vars_prompt:
   #   - name: ansible_become_password
-  #     prompt: "Digite a senha sudo"
+  #     prompt: "sudo password"
   #     private: true
