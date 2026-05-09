@@ -3,8 +3,11 @@
   shell: |
     curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg
   # --- That's curious --- #
+  # --- https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_environment.html --- #
   environment:
     TERM: xterm
+  args:
+    executable: /bin/bash
 
 - name: Remove repository (if exists)
   file: 
