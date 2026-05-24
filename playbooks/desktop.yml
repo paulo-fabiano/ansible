@@ -1,6 +1,8 @@
 - name: Configure Basic Services on Ubuntu Desktop
   hosts: local
-  gather_facts: true 
+  gather_facts: true
+  vars:
+    user: paulo # My name ;-)
   roles:
     - common
     - desktop
