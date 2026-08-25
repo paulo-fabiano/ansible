@@ -1,0 +1,13 @@
+---
+# --- https://k3d.io/stable/#installation --- #
+- name: Install Docker from script
+  shell: |
+    curl -fSsl https://get.docker.com | bash
+  args:
+    executable: /bin/bash
+
+- name: Add user '{{ user }}' to group docker
+  ansible.builtin.user:
+    name: '{{ user }}'
+    groups: docker
+    append: true

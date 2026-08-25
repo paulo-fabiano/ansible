@@ -10,3 +10,6 @@
 
 - name: Include k3d tasks
   include_tasks: k3d.yml
+
+- name: Include docker tasks
+  include_tasks: docker.yml
